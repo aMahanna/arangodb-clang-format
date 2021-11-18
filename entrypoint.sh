@@ -1,12 +1,15 @@
 #!/bin/sh
 cd arangodb
-find arangod -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
-find arangosh -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
-find lib -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
-find tests -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
 
-if [ -d "./enterprise" ] 
+if [ -z "$@" ]
 then
-    find ./enterprise/Enterprise -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
-    find ./enterprise/tests -regex '.*\.\(cpp\|hpp\|cc\|c\|h\)' -exec clang-format -style=file -i {} \;
+    echo 'Skipping: No files matching {.cpp, .hpp, .cc, .c, .h} in diff.'
+else
+    echo "-----------"
+    clang-format --version
+    echo "-----------"
+    echo "clang-format -style=file -i $@"
+    echo "-----------"
+    clang-format -style=file -i $@
+    echo "erledigt"
 fi
